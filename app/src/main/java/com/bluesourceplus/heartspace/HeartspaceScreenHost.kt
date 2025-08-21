@@ -12,11 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Mood
 import androidx.compose.material.icons.outlined.AccessTime
-import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Mood
 import androidx.compose.material3.BottomAppBar
@@ -160,8 +160,8 @@ internal fun BottomBar(navController: NavController) {
             rootScreen = Destination.Reflect,
             currentDestination = currentDestination,
             navController = navController,
-            usualIcon = { Icon(imageVector = Icons.Outlined.AccountCircle, contentDescription = "Reflect") },
-            selectedIcon = { Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = "Reflect Selected") },
+            usualIcon = { Icon(imageVector = Icons.Outlined.Analytics, contentDescription = "Reflect") },
+            selectedIcon = { Icon(imageVector = Icons.Filled.Analytics, contentDescription = "Reflect Selected") },
             title = "Reflect",
         )
 
