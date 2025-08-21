@@ -72,14 +72,14 @@ fun HomeScreen(
         CenterAlignedTopAppBar(
             title = { Text(text = "Heartspace", color = MaterialTheme.colorScheme.primary, fontSize = 22.sp) },
             actions = {
-                IconButton(onClick = onPrefsPressed) {
-                    Icon(
-                        imageVector = Icons.Filled.Settings,
-                        contentDescription = "Preferences",
-                        tint = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
+//                IconButton(onClick = onPrefsPressed) {
+//                    Icon(
+//                        imageVector = Icons.Filled.Settings,
+//                        contentDescription = "Preferences",
+//                        tint = MaterialTheme.colorScheme.onSurface,
+//                        modifier = Modifier.size(24.dp)
+//                    )
+//                }
             }
         )
         when (state) {

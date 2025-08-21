@@ -49,7 +49,6 @@ import com.bluesourceplus.heartspace.feature.home.HomeScreenRoute
 import com.bluesourceplus.heartspace.feature.mood.MoodScreenRoute
 import com.bluesourceplus.heartspace.feature.onboard.OnboardingScreen
 import com.bluesourceplus.heartspace.feature.reflect.ReflectScreenRoute
-import com.yourapp.heartspace.ui.settings.PreferencesScreen
 
 @Composable
 fun MeentScreenHost(
@@ -72,7 +71,7 @@ fun MeentScreenHost(
         }
 
         appScreen(Destination.Preferences) {
-            PreferencesScreen(back = navController::popBackStack)
+
         }
 
 
