@@ -61,7 +61,7 @@ import java.util.Locale
 fun MoodCard(
     moodModel: MoodModel,
     onMoodPressed: (Int) -> Unit,
-    onEdit: (Int) -> Unit,
+    onUpdatePressed: (Int) -> Unit,
     onDelete: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -193,7 +193,7 @@ fun MoodCard(
                     DropdownMenuItem(
                         text = { Text("Edit") },
                         onClick = {
-                            onEdit(moodModel.id)
+                            onUpdatePressed(moodModel.id)
                             showMenu = false
                         },
                         leadingIcon = {
