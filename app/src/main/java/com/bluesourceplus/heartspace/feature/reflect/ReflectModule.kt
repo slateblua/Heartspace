@@ -12,7 +12,5 @@ val reflectModule = module {
 
     single<GetMoodBreakdownUseCase> { GetMoodBreakdownUseCaseImpl(get()) }
 
-    single<GetLastSevenDaysMoodsUseCase> { GetLastSevenDaysMoodsUseCaseImpl(get()) }
-
     single<GetMostCommonMoodsUseCase> { GetMostCommonMoodsUseCaseImpl(get()) }
 }
