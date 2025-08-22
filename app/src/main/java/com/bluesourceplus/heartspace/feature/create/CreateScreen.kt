@@ -1,6 +1,5 @@
 package com.bluesourceplus.heartspace.feature.create
 
-import android.icu.text.DateFormat
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -18,32 +17,35 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Camera
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.rememberAsyncImagePainter
+import com.bluesourceplus.heartspace.components.formatTimestamp
 import com.bluesourceplus.heartspace.data.Mood
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
-import java.util.Date
-import java.util.Locale
 
 @Composable
 fun CreateScreenRoute(mode: CreateMoodMode, back: () -> Unit) {
@@ -101,9 +103,7 @@ fun CreateScreen(
                 }
             },
             actions = {
-                IconButton(onClick = {
-                    onCreateMoodIntent(CreateMoodIntent.OnSaveClicked)
-                }) {
+                IconButton(onClick = { onCreateMoodIntent(CreateMoodIntent.OnSaveClicked) }) {
                     Icon(imageVector = Icons.Default.Check, contentDescription = "Save")
                 }
             }
@@ -112,84 +112,75 @@ fun CreateScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Absolute.Center
-            ) {
-                Text(
-                    text = DateFormat.getDateInstance(DateFormat.FULL, Locale.getDefault())
-                        .format(Date()),
-                    fontSize = 16.sp,
-                )
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                val moods = Mood.entries
-                moods.forEachIndexed { index, mood ->
-                    MoodButton(
-                        mood = mood,
-                        onClick = {
-                            onCreateMoodIntent(CreateMoodIntent.OnMoodChanged(Mood.entries[index]))
-                        },
-                        isSelected = (mood == (state as State.Content).mood),
-                    )
-                }
-            }
-            OutlinedTextField(
-                value = (state as State.Content).note,
-                onValueChange = {
-                    createViewModel.handleEvent(CreateMoodIntent.OnNoteChanged(it))
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(220.dp),
-                placeholder = { Text("How are you feeling?") }
-            )
-
-
-            Spacer(modifier = Modifier.height(16.dp))
 
             if (state is State.Content) {
                 val contentState = state as State.Content
-                contentState.imageUri?.let { uriString ->
+
+                if (contentState.imageUri == null) {
+                    OutlinedCard(modifier = Modifier.size(128.dp), onClick = {
+                        imagePickerLauncher.launch("image/*")
+                    }) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.CameraAlt,
+                                contentDescription = "Add Image",
+                                modifier = Modifier.size(20.dp),
+                            )
+                        }
+                    }
+                } else {
                     Image(
-                        painter = rememberAsyncImagePainter(uriString),
+                        painter = rememberAsyncImagePainter(contentState.imageUri),
                         contentDescription = "Selected Mood Image",
                         modifier = Modifier.size(128.dp),
                         contentScale = ContentScale.Crop
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Button(onClick = {
-                        // Option to remove the image
-                        onCreateMoodIntent(CreateMoodIntent.OnImageSelected(null))
-                    }) {
-                        Text("Remove Image")
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Absolute.Center
+                ) {
+                    Text(
+                        text = formatTimestamp(System.currentTimeMillis()),
+                        fontSize = 16.sp,
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    val moods = Mood.entries
+                    moods.forEachIndexed { index, mood ->
+                        MoodButton(
+                            mood = mood,
+                            onClick = {
+                                onCreateMoodIntent(CreateMoodIntent.OnMoodChanged(Mood.entries[index]))
+                            },
+                            isSelected = (mood == contentState.mood),
+                        )
                     }
                 }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Button(onClick = {
-                imagePickerLauncher.launch("image/*") // Mime type for images
-            }) {
-                Text("Select Image")
-            }
-
-            Button(
-                onClick = { createViewModel.handleEvent(CreateMoodIntent.OnSaveClicked) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                shape = RoundedCornerShape(20.dp)
-            ) {
-                Text("Save", fontSize = 18.sp)
+                OutlinedTextField(
+                    value = contentState.note,
+                    onValueChange = {
+                        createViewModel.handleEvent(CreateMoodIntent.OnNoteChanged(it))
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp),
+                    placeholder = { Text("How are you feeling?") }
+                )
             }
         }
     }
