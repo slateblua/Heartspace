@@ -28,14 +28,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bluesourceplus.heartspace.components.MoodCard
-import com.bluesourceplus.heartspace.feature.aboutmoodentry.AboutMoodIntent
-import com.bluesourceplus.heartspace.feature.aboutmoodentry.AboutMoodViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreenRoute(
     viewModel: HomeViewModel = koinViewModel(),
-    aboutScreenViewModel: AboutMoodViewModel = koinViewModel(),
     onAddButton: () -> Unit,
     onMoodCardPressed: (Int) -> Unit,
     onPrefsPressed: () -> Unit = {  } // Placeholder for preferences action
@@ -46,7 +43,7 @@ fun HomeScreenRoute(
         onAddButton = onAddButton,
         onMoodCardPressed = onMoodCardPressed,
         state = state,
-        onAboutMoodIntent = { it -> aboutScreenViewModel.handleEvent(it) },
+        onHomeScreenState = { it -> viewModel.handleEvent(it) },
         onPrefsPressed = onPrefsPressed
     )
 }
@@ -57,7 +54,7 @@ fun HomeScreen(
     onAddButton: () -> Unit,
     onMoodCardPressed: (Int) -> Unit,
     state: HomeScreenState,
-    onAboutMoodIntent: (AboutMoodIntent) -> Unit,
+    onHomeScreenState: (HomeScreenIntent) -> Unit,
     onPrefsPressed: () -> Unit
 ) {
     Column(
@@ -100,7 +97,7 @@ fun HomeScreen(
                         MoodCard(
                             moodModel = mood,
                             onMoodPressed = { onMoodCardPressed(mood.id) },
-                            onDelete = { onAboutMoodIntent(AboutMoodIntent.DeleteMood(mood.id)) },
+                            onDelete = { onHomeScreenState(HomeScreenIntent.DeleteMood(mood.id)) },
                             onUpdatePressed = { onMoodCardPressed(it) },
                         )
                     }
