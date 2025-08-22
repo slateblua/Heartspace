@@ -14,6 +14,23 @@ data class MoodModel(
     val mood: Mood,
     val note: String,
     val timestamp: Long = System.currentTimeMillis(),
+    val imageUri: String? = null, // Use Uri to represent image
+)
+
+data class MoodBreakdown(
+    val mood: String,
+    val count: Int,
+    val percentage: Double
+)
+
+data class MoodFrequency(
+    val mood: String,
+    val frequency: Int
+)
+
+data class MoodByDay(
+    val date: String,
+    val moods: List<MoodModel>
 )
 
 enum class Mood(val icon: ImageVector, val displayName: String) {

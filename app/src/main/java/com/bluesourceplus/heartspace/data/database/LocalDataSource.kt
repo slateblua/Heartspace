@@ -1,5 +1,7 @@
 package com.bluesourceplus.heartspace.data.database
 
+import com.bluesourceplus.heartspace.data.MoodBreakdown
+import com.bluesourceplus.heartspace.data.MoodFrequency
 import com.bluesourceplus.heartspace.data.MoodModel
 import kotlinx.coroutines.flow.Flow
 
@@ -13,4 +15,8 @@ interface LocalDataSource {
     suspend fun delete(moodEntry: MoodEntry)
 
     suspend fun add(moodModel: MoodModel)
+
+    suspend fun getMoodBreakdown(): List<MoodBreakdown>
+
+    suspend fun getMostCommonMoods(limit: Int = 5): List<MoodFrequency>
 }

@@ -8,7 +8,8 @@ fun MoodModel.toEntry(): MoodEntry {
         id = this.id,
         mood = this.mood.name,
         timestamp = this.timestamp,
-        note = this.note
+        note = this.note,
+        imageUri = this.imageUri
     )
 }
 
@@ -17,6 +18,7 @@ fun MoodEntry.toModel(): MoodModel {
         id = this.id,
         mood = Mood.valueOf(this.mood),
         timestamp = this.timestamp,
-        note = this.note
+        note = this.note,
+        imageUri = this.imageUri
     )
 }

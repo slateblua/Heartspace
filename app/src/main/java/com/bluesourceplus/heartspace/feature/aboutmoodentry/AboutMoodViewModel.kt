@@ -21,6 +21,7 @@ sealed interface AboutMoodState {
         val id: Int = 0,
         val note: String = "",
         val mood: Mood = Mood.SAD,
+        val imageUri: String? = null,
     ) : AboutMoodState
 }
 
@@ -75,6 +76,7 @@ class AboutMoodViewModel : ViewModel(), KoinComponent {
                     id = moodId,
                     note = moodModel.note,
                     mood = moodModel.mood,
+                    imageUri = moodModel.imageUri,
                 )
             }
         }

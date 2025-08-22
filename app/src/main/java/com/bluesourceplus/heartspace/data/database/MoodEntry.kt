@@ -10,4 +10,5 @@ data class MoodEntry(
     val mood: String,
     val timestamp: Long = System.currentTimeMillis(),
     val note: String = "",
+    val imageUri: String?
 )

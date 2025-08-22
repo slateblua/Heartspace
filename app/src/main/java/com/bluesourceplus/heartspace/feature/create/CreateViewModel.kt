@@ -32,6 +32,10 @@ sealed interface CreateMoodIntent {
         val description: String,
     ) : CreateMoodIntent
 
+    data class OnImageSelected(
+        val imageUri: String?, // Nullable if image can be removed
+    ) : CreateMoodIntent
+
     data object OnSaveClicked : CreateMoodIntent
 }
 
@@ -40,6 +44,7 @@ sealed interface State {
         val id: Int = 0,
         val mood: Mood = Mood.SAD,
         val note: String = "",
+        val imageUri: String? = null, // Add imageUri here
     ) : State
 }
 
@@ -73,8 +78,16 @@ class CreateViewModel(private val mode: CreateMoodMode) : ViewModel(), KoinCompo
             is CreateMoodIntent.OnNoteChanged -> setDescription(event.description)
             is CreateMoodIntent.OnSaveClicked -> addOrUpdateMood()
             is CreateMoodIntent.OnMoodChanged -> setMood(event.mood)
+            is CreateMoodIntent.OnImageSelected -> setImageUri(event.imageUri) // Handle new event
         }
     }
+
+    private fun setImageUri(imageUri: String?) {
+        _state.update {
+            (it as State.Content).copy(imageUri = imageUri)
+        }
+    }
+
 
     private fun setMood(mood: Mood) {
         _state.update {
@@ -96,6 +109,7 @@ class CreateViewModel(private val mode: CreateMoodMode) : ViewModel(), KoinCompo
                     id = mood.id,
                     mood = mood.mood,
                     note = mood.note,
+                    imageUri = mood.imageUri // Pass imageUri to MoodModel
                 )
             }
         }
@@ -109,6 +123,7 @@ class CreateViewModel(private val mode: CreateMoodMode) : ViewModel(), KoinCompo
                     id = state.id,
                     note = state.note,
                     mood = state.mood,
+                    imageUri = state.imageUri // Pass imageUri to MoodModel
                 )
 
             if (mode is CreateMoodMode.Edit) {

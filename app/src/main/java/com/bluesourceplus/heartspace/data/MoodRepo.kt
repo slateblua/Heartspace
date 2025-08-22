@@ -13,4 +13,8 @@ interface MoodRepo {
     suspend fun delete(moodEntry: MoodEntry)
 
     suspend fun add(moodModel: MoodModel)
+
+    suspend fun getMoodBreakdown(): List<MoodBreakdown>
+
+    suspend fun getMostCommonMoods(limit: Int = 5): List<MoodFrequency>
 }

@@ -1,11 +1,13 @@
 package com.bluesourceplus.heartspace.feature.aboutmoodentry
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -27,8 +29,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil3.compose.rememberAsyncImagePainter
 import com.bluesourceplus.heartspace.components.DeleteMoodAlert
 import org.koin.androidx.compose.koinViewModel
 
@@ -109,6 +113,12 @@ fun AboutMoodScreen(
                         Text(
                             text = state.mood.displayName,
                             style = MaterialTheme.typography.bodyLarge
+                        )
+                        Image(
+                            painter = rememberAsyncImagePainter(state.imageUri),
+                            contentDescription = "Selected Mood Image",
+                            modifier = Modifier.size(256.dp),
+                            contentScale = ContentScale.Crop
                         )
                     }
                 }

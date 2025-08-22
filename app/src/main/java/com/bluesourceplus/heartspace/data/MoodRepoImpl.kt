@@ -23,4 +23,13 @@ class MoodRepoImpl (private val localDataSource: LocalDataSource) : MoodRepo {
     override suspend fun add(moodModel: MoodModel) {
         localDataSource.add(moodModel)
     }
+
+    override suspend fun getMoodBreakdown(): List<MoodBreakdown> {
+        return localDataSource.getMoodBreakdown()
+    }
+
+
+    override suspend fun getMostCommonMoods(limit: Int): List<MoodFrequency> {
+        return localDataSource.getMostCommonMoods()
+    }
 }

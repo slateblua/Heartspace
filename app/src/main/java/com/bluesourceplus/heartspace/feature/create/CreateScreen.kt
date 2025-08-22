@@ -1,10 +1,14 @@
 package com.bluesourceplus.heartspace.feature.create
 
 import android.icu.text.DateFormat
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,9 +33,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil3.compose.rememberAsyncImagePainter
 import com.bluesourceplus.heartspace.data.Mood
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -56,6 +63,17 @@ fun CreateScreen(
     back: () -> Unit
 ) {
     val state by createViewModel.state.collectAsStateWithLifecycle()
+
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent() // Or PickVisualMedia()
+    ) { uri ->
+        uri?.let {
+            // You might need to handle content URI persistence across app restarts
+            // by taking persistable URI permissions if using GetContent()
+            // For PickVisualMedia, this is generally handled better.
+            onCreateMoodIntent(CreateMoodIntent.OnImageSelected(it.toString()))
+        }
+    }
 
     LaunchedEffect(Unit) {
         createViewModel.sideEffect.collect { effect ->
@@ -133,6 +151,36 @@ fun CreateScreen(
                     .height(220.dp),
                 placeholder = { Text("How are you feeling?") }
             )
+
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (state is State.Content) {
+                val contentState = state as State.Content
+                contentState.imageUri?.let { uriString ->
+                    Image(
+                        painter = rememberAsyncImagePainter(uriString),
+                        contentDescription = "Selected Mood Image",
+                        modifier = Modifier.size(128.dp),
+                        contentScale = ContentScale.Crop
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(onClick = {
+                        // Option to remove the image
+                        onCreateMoodIntent(CreateMoodIntent.OnImageSelected(null))
+                    }) {
+                        Text("Remove Image")
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(onClick = {
+                imagePickerLauncher.launch("image/*") // Mime type for images
+            }) {
+                Text("Select Image")
+            }
 
             Button(
                 onClick = { createViewModel.handleEvent(CreateMoodIntent.OnSaveClicked) },
