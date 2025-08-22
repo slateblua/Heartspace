@@ -66,7 +66,6 @@ sealed interface AnalyticsState {
     data object Loading : AnalyticsState
     data class Content(
         val moodBreakdown: List<MoodBreakdown> = emptyList(),
-        val recentMoods: List<MoodEntry> = emptyList(),
         val mostCommonMoods: List<MoodFrequency> = emptyList(),
         val isRefreshing: Boolean = false
     ) : AnalyticsState

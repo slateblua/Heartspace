@@ -1,7 +1,6 @@
 package com.bluesourceplus.heartspace.feature.reflect
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,17 +34,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import com.bluesourceplus.heartspace.data.database.MoodEntry
 import org.koin.androidx.compose.koinViewModel
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import kotlin.math.roundToInt
 
 @Composable
@@ -96,7 +88,6 @@ fun ReflectPan(
     onNavigateToMoodDetails: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
-    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.sideEffects.collect { sideEffect ->
@@ -143,7 +134,6 @@ fun ReflectPan(
         is AnalyticsState.Content -> {
             AnalyticsContent(
                 state = state as AnalyticsState.Content,
-                onMoodClicked = { viewModel.handleIntent(AnalyticsIntent.OnMoodClicked(it)) }
             )
         }
     }
@@ -152,7 +142,6 @@ fun ReflectPan(
 @Composable
 private fun AnalyticsContent(
     state: AnalyticsState.Content,
-    onMoodClicked: (MoodEntry) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -289,71 +278,6 @@ private fun AnalyticsContent(
                             text = "No mood data available",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
-        }
-
-        if (state.recentMoods.isNotEmpty()) {
-            items(state.recentMoods) { moodEntry ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(12.dp))
-                        .clickable { onMoodClicked(moodEntry) },
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(16.dp)
-                    ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = moodEntry.mood,
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.Medium
-                            )
-                            Text(
-                                text = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault()).format(Date(moodEntry.timestamp)),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-
-                        if (moodEntry.note.isNotBlank()) {
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = moodEntry.note,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        }
-                    }
-                }
-            }
-        } else {
-            item {
-                Card(
-                    modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(32.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "No moods recorded in the last 7 days",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            textAlign = TextAlign.Center
                         )
                     }
                 }
