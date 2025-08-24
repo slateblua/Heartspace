@@ -93,7 +93,7 @@ fun CreateScreen(
 
     Column {
         CenterAlignedTopAppBar(
-            title = { Text(text = "Create") },
+            title = { Text(text = "Heartspace") },
             navigationIcon = {
                 IconButton(onClick = back) {
                     Icon(
