@@ -49,7 +49,7 @@ fun ReflectScreenRoute() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReflectScreen() {
+internal fun ReflectScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -76,7 +76,7 @@ fun ReflectScreen() {
 }
 
 @Composable
-fun ReflectPan(
+internal fun ReflectPan(
     viewModel: ReflectViewModel = koinViewModel(),
     onNavigateToMoodDetails: () -> Unit = {}
 ) {
@@ -133,7 +133,7 @@ fun ReflectPan(
 }
 
 @Composable
-private fun ReflectContent(
+internal fun ReflectContent(
     state: AnalyticsState.Content,
 ) {
     LazyColumn(

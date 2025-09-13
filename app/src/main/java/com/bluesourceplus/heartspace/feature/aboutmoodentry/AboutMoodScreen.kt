@@ -65,7 +65,7 @@ fun AboutMoodRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutMoodScreen(
+internal fun AboutMoodScreen(
     moodId: Int,
     state: AboutMoodState,
     aboutMoodViewModel: AboutMoodViewModel,

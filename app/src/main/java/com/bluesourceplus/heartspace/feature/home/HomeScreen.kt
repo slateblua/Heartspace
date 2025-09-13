@@ -53,7 +53,7 @@ fun HomeScreenRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
     onAddButton: () -> Unit,
     onMoodCardPressed: (Int) -> Unit,
     state: HomeScreenState,
