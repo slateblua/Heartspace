@@ -11,14 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Mood
-import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material.icons.outlined.Analytics
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Mood
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
@@ -135,23 +131,23 @@ internal fun BottomBar(navController: NavController) {
             title = "Home",
         )
 
-        BottomBarItem(
-            rootScreen = Destination.Mood,
-            currentDestination = currentDestination,
-            navController = navController,
-            usualIcon = { Icon(imageVector = Icons.Outlined.Mood, contentDescription = "Mood") },
-            selectedIcon = { Icon(imageVector = Icons.Filled.Mood, contentDescription = "Mood Selected") },
-            title = "Mood",
-        )
+//        BottomBarItem(
+//            rootScreen = Destination.Mood,
+//            currentDestination = currentDestination,
+//            navController = navController,
+//            usualIcon = { Icon(imageVector = Icons.Outlined.Mood, contentDescription = "Mood") },
+//            selectedIcon = { Icon(imageVector = Icons.Filled.Mood, contentDescription = "Mood Selected") },
+//            title = "Mood",
+//        )
 
-        BottomBarItem(
-            rootScreen = Destination.Focus,
-            currentDestination = currentDestination,
-            navController = navController,
-            usualIcon = { Icon(imageVector = Icons.Outlined.AccessTime, contentDescription = "Focus") },
-            selectedIcon = { Icon(imageVector = Icons.Filled.AccessTime, contentDescription = "Focus Selected") },
-            title = "Focus",
-        )
+//        BottomBarItem(
+//            rootScreen = Destination.Focus,
+//            currentDestination = currentDestination,
+//            navController = navController,
+//            usualIcon = { Icon(imageVector = Icons.Outlined.AccessTime, contentDescription = "Focus") },
+//            selectedIcon = { Icon(imageVector = Icons.Filled.AccessTime, contentDescription = "Focus Selected") },
+//            title = "Focus",
+//        )
 
         BottomBarItem(
             rootScreen = Destination.Reflect,
