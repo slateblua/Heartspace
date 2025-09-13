@@ -1,8 +1,11 @@
 package com.bluesourceplus.heartspace
 
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.PaddingValues
@@ -57,6 +60,17 @@ fun HeartspaceScreenHost(
         Modifier
             .padding(padding)
             .fillMaxSize(),
+        enterTransition = {
+            fadeIn(animationSpec = tween(300)) + slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left, tween(300)
+            )
+        },
+        exitTransition = {
+            slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(300))
+        },
+        popEnterTransition = {
+            fadeIn(animationSpec = tween(300)) + slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(300))
+        },
     ) {
 
         appScreen(Destination.Preferences) {
