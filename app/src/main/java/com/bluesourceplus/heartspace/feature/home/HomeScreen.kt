@@ -1,6 +1,7 @@
 package com.bluesourceplus.heartspace.feature.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -94,7 +95,9 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                LazyColumn {
+                LazyColumn(
+                    contentPadding = PaddingValues(bottom = 10.dp) // Add padding to the bottom
+                ) {
                     items(state.moods, key = { mood -> mood.id }) { mood ->
                         Spacer(modifier = Modifier.height(10.dp))
                         MoodCard(
