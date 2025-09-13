@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -72,12 +71,6 @@ fun ReflectScreen() {
                 .padding(bottom = 8.dp)
         )
 
-        HorizontalDivider(
-            modifier = Modifier.fillMaxWidth(),
-            thickness = 1.dp,
-            color = MaterialTheme.colorScheme.surfaceVariant
-        )
-
         ReflectPan()
     }
 }
@@ -132,7 +125,7 @@ fun ReflectPan(
             }
         }
         is AnalyticsState.Content -> {
-            AnalyticsContent(
+            ReflectContent(
                 state = state as AnalyticsState.Content,
             )
         }
@@ -140,7 +133,7 @@ fun ReflectPan(
 }
 
 @Composable
-private fun AnalyticsContent(
+private fun ReflectContent(
     state: AnalyticsState.Content,
 ) {
     LazyColumn(
@@ -159,18 +152,10 @@ private fun AnalyticsContent(
             ) {
                 Column(
                     modifier = Modifier
-                        .background(
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(
-                                    MaterialTheme.colorScheme.surface,
-                                    MaterialTheme.colorScheme.surfaceVariant
-                                )
-                            )
-                        )
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "Overall Check-ins Breakdown",
+                        text = "Breakdown",
                         style = MaterialTheme.typography.headlineSmall,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
@@ -210,67 +195,6 @@ private fun AnalyticsContent(
                                         fontWeight = FontWeight.Bold
                                     )
                                 }
-                            }
-                        }
-                    } else {
-                        Text(
-                            text = "No mood data available",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            }
-        }
-
-        // Most Common Moods Section
-        item {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp)),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(16.dp)
-                ) {
-                    Text(
-                        text = "Most Common Emotions",
-                        style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-
-                    if (state.mostCommonMoods.isNotEmpty()) {
-                        state.mostCommonMoods.forEachIndexed { index, mood ->
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 6.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    // number badge
-                                    Box(
-                                        modifier = Modifier
-                                            .size(32.dp)
-                                            .clip(RoundedCornerShape(8.dp))
-                                            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)),
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Text(text = "${index + 1}", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold), color = MaterialTheme.colorScheme.primary)
-                                    }
-                                    Spacer(modifier = Modifier.width(12.dp))
-                                    Text(
-                                        text = mood.mood,
-                                        style = MaterialTheme.typography.bodyMedium
-                                    )
-                                }
-                                Text(
-                                    text = "${mood.frequency} times",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontWeight = FontWeight.Bold
-                                )
                             }
                         }
                     } else {
