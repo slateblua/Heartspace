@@ -30,7 +30,7 @@ class HeartspaceEntry : ComponentActivity() {
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     modifier = Modifier.fillMaxSize(),
                 ) { innerPadding ->
-                    MeentScreenHost(navController, innerPadding)
+                    HeartspaceScreenHost(navController, innerPadding)
                 }
             }
         }

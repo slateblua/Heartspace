@@ -50,7 +50,7 @@ import com.bluesourceplus.heartspace.feature.mood.MoodScreenRoute
 import com.bluesourceplus.heartspace.feature.reflect.ReflectScreenRoute
 
 @Composable
-fun MeentScreenHost(
+fun HeartspaceScreenHost(
     navController: NavHostController,
     padding: PaddingValues,
 ) {
