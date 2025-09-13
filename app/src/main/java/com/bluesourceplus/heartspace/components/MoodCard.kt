@@ -176,10 +176,10 @@ fun MoodCard(
                         .widthIn(min = 160.dp)
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Change mood") },
+                        text = { Text("Update") },
                         onClick = {
                             // you might show picker in parent; for now call the handler
-                            onMoodPressed(moodModel.id)
+                            onUpdatePressed(moodModel.id)
                             showMenu = false
                         },
                         leadingIcon = {
@@ -187,17 +187,6 @@ fun MoodCard(
                                 imageVector = Icons.Default.ChangeCircle,
                                 contentDescription = "Change mood"
                             )
-                        }
-                    )
-
-                    DropdownMenuItem(
-                        text = { Text("Edit") },
-                        onClick = {
-                            onUpdatePressed(moodModel.id)
-                            showMenu = false
-                        },
-                        leadingIcon = {
-                            Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit")
                         }
                     )
 

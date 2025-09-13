@@ -81,7 +81,11 @@ fun HeartspaceScreenHost(
                 navController.navigate(JOURNAL_SCREEN_ROUTE)
             }, onMoodCardPressed = {
                 navController.navigate("$ABOUT_MOOD_SCREEN_ROUTE/$it") { launchSingleTop = true }
-            }, onPrefsPressed = { navController.navigate(PREFERENCES_SCREEN_ROUTE) }
+            }, onPrefsPressed = {
+                navController.navigate(PREFERENCES_SCREEN_ROUTE)
+            }, onUpdateMoodPressed = {
+                navController.navigate("$JOURNAL_SCREEN_ROUTE?$MOOD_ID_ARG=$it") { launchSingleTop = true }
+            }
             )
         }
 

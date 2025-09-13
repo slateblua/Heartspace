@@ -35,7 +35,8 @@ fun HomeScreenRoute(
     viewModel: HomeViewModel = koinViewModel(),
     onAddButton: () -> Unit,
     onMoodCardPressed: (Int) -> Unit,
-    onPrefsPressed: () -> Unit = {  } // Placeholder for preferences action
+    onPrefsPressed: () -> Unit = {  }, // Placeholder for preferences action,
+    onUpdateMoodPressed: (Int) -> Unit = { } // Placeholder for update mood action
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -44,7 +45,8 @@ fun HomeScreenRoute(
         onMoodCardPressed = onMoodCardPressed,
         state = state,
         onHomeScreenState = { it -> viewModel.handleEvent(it) },
-        onPrefsPressed = onPrefsPressed
+        onPrefsPressed = onPrefsPressed,
+        onUpdateMoodPressed = onUpdateMoodPressed
     )
 }
 
@@ -55,6 +57,7 @@ fun HomeScreen(
     onMoodCardPressed: (Int) -> Unit,
     state: HomeScreenState,
     onHomeScreenState: (HomeScreenIntent) -> Unit,
+    onUpdateMoodPressed: (Int) -> Unit = {},
     onPrefsPressed: () -> Unit
 ) {
     Column(
@@ -98,7 +101,7 @@ fun HomeScreen(
                             moodModel = mood,
                             onMoodPressed = { onMoodCardPressed(mood.id) },
                             onDelete = { onHomeScreenState(HomeScreenIntent.DeleteMood(mood.id)) },
-                            onUpdatePressed = { onMoodCardPressed(it) },
+                            onUpdatePressed = { onUpdateMoodPressed(it) },
                         )
                     }
                 }
