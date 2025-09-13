@@ -232,7 +232,13 @@ object Destination {
     )
 
     data object Journal : Screen(
-        route = JOURNAL_SCREEN_ROUTE,
+        route = "$JOURNAL_SCREEN_ROUTE?$MOOD_ID_ARG={$MOOD_ID_ARG}",
+        arguments = listOf(
+            navArgument(MOOD_ID_ARG) {
+                type = NavType.StringType
+                nullable = true
+            }
+        )
     )
 
     data object Mood : Screen(
