@@ -47,7 +47,6 @@ import com.bluesourceplus.heartspace.feature.create.CreateScreenRoute
 import com.bluesourceplus.heartspace.feature.focus.FocusScreenRoute
 import com.bluesourceplus.heartspace.feature.home.HomeScreenRoute
 import com.bluesourceplus.heartspace.feature.mood.MoodScreenRoute
-import com.bluesourceplus.heartspace.feature.onboard.OnboardingScreen
 import com.bluesourceplus.heartspace.feature.reflect.ReflectScreenRoute
 
 @Composable
@@ -57,18 +56,12 @@ fun MeentScreenHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ONBOARDING_SCREEN_ROUTE,
+        startDestination = HOME_SCREEN_ROUTE,
         modifier =
         Modifier
             .padding(padding)
             .fillMaxSize(),
     ) {
-
-        appScreen(Destination.Onboarding) {
-            OnboardingScreen {
-                navController.navigate(Destination.Home.route) { popUpTo(ONBOARDING_SCREEN_ROUTE) { inclusive = true } }
-            }
-        }
 
         appScreen(Destination.Preferences) {
 
@@ -252,10 +245,6 @@ object Destination {
 
     data object Reflect : Screen (
         route = REFLECT_SCREEN_ROUTE,
-    )
-
-    data object Onboarding : Screen(
-        route = ONBOARDING_SCREEN_ROUTE,
     )
 
     data object Preferences : Screen(
